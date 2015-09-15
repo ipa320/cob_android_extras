@@ -459,9 +459,23 @@ public class MasterChooser extends ListActivity implements AdapterView.OnItemSel
         @Override
         protected Boolean doInBackground(Void... params) {
           try {
-            toast("Trying to reach master at " + masterUri, Toast.LENGTH_SHORT);
-            InetAddress[] inetAddress = InetAddress.getAllByName(masterUri);
-
+            toast("Trying to reach master at " + masterUri, Toast.LENGTH_LONG);
+            String uri = masterUri.replace("http://","");
+            uri = uri.replace(":11311","");
+            Log.i("MasterChooser", "Trying to reach master at " + uri);
+            InetAddress[] inetAddress = InetAddress.getAllByName(uri);
+            try {
+              Thread.sleep(2000,0);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+          } catch(UnknownHostException e){
+            toast("Unknown host: "+e.toString(), Toast.LENGTH_LONG);
+            Log.e("MasterChooser", "Unknown Host: "+e.toString());
+            return false;
+          }
+          try
+          {
             MasterClient masterClient = new MasterClient(new URI(masterUri));
             masterClient.getUri(GraphName.of("android/master_chooser_activity"));
             toast("Connected!", Toast.LENGTH_LONG);
@@ -471,10 +485,6 @@ public class MasterChooser extends ListActivity implements AdapterView.OnItemSel
             return false;
           } catch (XmlRpcTimeoutException e) {
             toast("Master unreachable!", Toast.LENGTH_LONG);
-            return false;
-          } catch(UnknownHostException e){
-            toast("Unknown host: "+e.toString(), Toast.LENGTH_LONG);
-            Log.e("MasterChooser", "Unknown Host: " + e.toString());
             return false;
           }
         }
@@ -510,8 +520,22 @@ public class MasterChooser extends ListActivity implements AdapterView.OnItemSel
         protected Boolean doInBackground(Void... params) {
           try {
             toast("Trying to reach master at " + masterUri, Toast.LENGTH_LONG);
-            InetAddress[] inetAddress = InetAddress.getAllByName(masterUri);
-
+            String uri = masterUri.replace("http://","");
+            uri = uri.replace(":11311","");
+            Log.i("MasterChooser", "Trying to reach master at " + uri);
+            InetAddress[] inetAddress = InetAddress.getAllByName(uri);
+            try {
+              Thread.sleep(2000,0);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+          } catch(UnknownHostException e){
+            toast("Unknown host: "+e.toString(), Toast.LENGTH_LONG);
+            Log.e("MasterChooser", "Unknown Host: "+e.toString());
+            return false;
+          }
+          try
+          {
             MasterClient masterClient = new MasterClient(new URI(masterUri));
             masterClient.getUri(GraphName.of("android/master_chooser_activity"));
             toast("Connected!", Toast.LENGTH_LONG);
@@ -521,10 +545,6 @@ public class MasterChooser extends ListActivity implements AdapterView.OnItemSel
             return false;
           } catch (XmlRpcTimeoutException e) {
             toast("Master unreachable!", Toast.LENGTH_LONG);
-            return false;
-          } catch(UnknownHostException e){
-            toast("Unknown host: "+e.toString(), Toast.LENGTH_LONG);
-            Log.e("MasterChooser", "Unknown Host: "+e.toString());
             return false;
           }
         }
