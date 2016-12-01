@@ -62,6 +62,7 @@ import org.ros.internal.node.xmlrpc.XmlRpcTimeoutException;
 import org.ros.namespace.GraphName;
 import org.ros.node.NodeConfiguration;
 
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -486,7 +487,14 @@ public class MasterChooser extends ListActivity implements AdapterView.OnItemSel
           } catch (XmlRpcTimeoutException e) {
             toast("Master unreachable!", Toast.LENGTH_LONG);
             return false;
+          } catch (RuntimeException e) {
+            toast(e.getMessage(), Toast.LENGTH_LONG);
+            return false;
+          } catch (Exception e){
+            toast(e.getMessage(), Toast.LENGTH_LONG);
+            return false;
           }
+
         }
 
         @Override
